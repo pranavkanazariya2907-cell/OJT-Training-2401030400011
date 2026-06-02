@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PK Lifestyle </title>
+
+  <!-- Internal CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: bisque;
+    }
+    header {
+      background-color: rgb(234, 77, 77);
+      color: black;
+      padding: 10px;
+      text-align: center;
+    }
+    nav ul {
+      list-style: cross-fade();
+      margin:0;
+      padding: 7px;
+      display: flex;
+      justify-content: center;
+      background-color: white;
+    }
+    nav ul li {
+      margin: 0 50px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: red;
+      font-weight: bold;
+    }
+    nav ul li a:hover {
+      color: rebeccapurple;
+    }
+  </style>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1 style="color:black;">HB Lifestyle </h1> <!-- Inline CSS -->
+    <p style="font-size: 18px;">Fashion that fits your lifestyle</p> <!-- Inline CSS -->
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Men</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Kids</a></li>
+      <li><a href="#">Sale</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h2>Welcome to HB Lifestyle</h2>
+    <p>Discover trendy outfits and accessories for every occasion.</p>
+    <button> shop now </button>
+  </main>
+
+</body>
+</html>
