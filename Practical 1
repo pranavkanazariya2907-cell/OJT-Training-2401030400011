@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clothing Brand Categories</title>
+</head>
+<body>
+    <h2>Our Clothing Collections</h2>
+
+    <!-- Ordered list for main categories -->
+    <ol>
+        <li>Men
+            <ul>
+                <li>Shirts</li>
+                <li>Pants</li>
+                <li>Accessories</li>
+            </ul>
+        </li>
+        <li>Women
+            <ul>
+                <li>Dresses</li>
+                <li>Tops</li>
+                <li>Handbags</li>
+            </ul>
+        </li>
+        <li>Kids
+            <ul>
+                <li>T-Shirts</li>
+                <li>Shorts</li>
+                <li>Shoes</li>
+            </ul>
+        </li>
+    </ol>
+
+    <!-- Unordered list with nested ordered list -->
+    <ul>
+        <li>Seasonal Collections
+            <ol>
+                <li>Summer</li>
+                <li>Winter</li>
+                <li>Festive</li>
+            </ol>
+        </li>
+        <li>Special Editions
+            <ol>
+                <li>Designer Collabs</li>
+                <li>Limited Edition</li>
+                <li>Sustainable Line</li>
+            </ol>
+        </li>
+    </ul>
+</body>
+</html>
