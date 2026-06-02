@@ -44,7 +44,7 @@
 <body>
 
   <header>
-    <h1 style="color:black;">HB Lifestyle </h1> <!-- Inline CSS -->
+    <h1 style="color:black;">PK Lifestyle </h1> <!-- Inline CSS -->
     <p style="font-size: 18px;">Fashion that fits your lifestyle</p> <!-- Inline CSS -->
   </header>
 
@@ -59,7 +59,7 @@
   </nav>
 
   <main>
-    <h2>Welcome to HB Lifestyle</h2>
+    <h2>Welcome to PK Lifestyle</h2>
     <p>Discover trendy outfits and accessories for every occasion.</p>
     <button> shop now </button>
   </main>
