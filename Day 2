@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Website</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      background-color: lightpink;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo img {
+      height: 40px; /* adjust size */
+    }
+    .searchbar {
+      display: flex;
+      align-items: center;
+      width: 200px; /* smaller size */
+      margin-left: auto; /* push to right */
+    }
+    .searchbar input {
+      padding: 6px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+      flex: 1;
+    }
+    .searchbar button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      background: #333;
+      color: #fff;
+    }
+    .icons {
+      display: flex;
+      gap: 15px;
+      margin-left: 15px; /* spacing between search and icons */
+    }
+    .icons a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .icons a:hover {
+      color: #000;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      background-color: #f8f8f8;
+    }
+    .navbar div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .navbar div:hover {
+      text-decoration: underline;
+    }
+    .categorybar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #ffe0cc, #ffd6d6);
+      padding: 12px 0;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .categorybar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .categorybar a:hover {
+      background-color: #ff7f50;
+      color: white;
+      transform: scale(1.05);
+    }
+    .categorybar a.active {
+      background-color: #ff7f50;
+      color: white;
+    }
+    .slider {
+      background-image: url("C:/Users/DELL/Downloads/img.jpeg");
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>HB Lifestyle</h1>
+    </div>
+    <div class="searchbar">
+      <input type="text" placeholder="Search">
+      <button>Go</button>
+    </div>
+    <div class="icons">
+      <a href="#" title="Wishlist"><i class="fas fa-heart"></i></a>
+      <a href="#" title="Cart"><i class="fas fa-shopping-cart"></i></a>
+      <a href="#" title="Sign In"><i class="fas fa-user"></i></a>
+    </div>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div>🚚 Free Shipping</div>
+    <div>🛍️ Click & Collect</div>
+    <div>🔒 Return to Store</div>
+    <div>📍 Delivering To</div>
+    <div>❓ Help</div>
+  </nav>
+
+  <!-- Category Bar -->
+  <nav class="categorybar">
+    <a href="#" class="active">Women</a>
+    <a href="#">Men</a>
+    <a href="#">Kids</a>
+    <a href="#">Footwear</a>
+    <a href="#">Bags</a>
+    <a href="#">Beauty</a>
+    <a href="#">Home & Living</a>
+    <a href="#">Babyshop</a>
+    <a href="#">Gen Z</a>
+    <a href="#">Watches</a>
+    <a href="#">LUXE</a>
+  </nav>
+
+  <!-- Slider -->
+  <div class="slider">
+    <img src="C:/Users/DELL/Downloads/w img.jpeg" alt="myimage" height="450px" width="1600px">
+  </div>
+</body>
+</html>
