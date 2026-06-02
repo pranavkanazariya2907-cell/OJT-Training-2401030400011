@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VintageVault — Curated Antiques & Retro Collections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --parchment: #EDE5D0;
+    --tan: #D4C5A9;
+    --warm-brown: #8B6914;
+    --dark-brown: #3E2A0F;
+    --espresso: #1C1008;
+    --rust: #A0522D;
+    --gold: #C9A84C;
+    --gold-light: #E8D5A3;
+    --sage: #6B7A5E;
+    --ink: #2A1F0E;
+    --shadow: rgba(30,15,0,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background-color: var(--cream);
+    color: var(--espresso);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--parchment); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4vw;
+    height: 68px;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--tan);
+    transition: box-shadow 0.3s;
+  }
+
+  nav.scrolled { box-shadow: 0 2px 20px var(--shadow); }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .logo-icon {
+    width: 32px; height: 32px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dark-brown);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--warm-brown); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-cart {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark-brown);
+    font-size: 1.3rem;
+    transition: color 0.2s;
+  }
+
+  .btn-cart:hover { color: var(--warm-brown); }
+
+  .cart-badge {
+    position: absolute;
+    top: -5px; right: -8px;
+    background: var(--rust);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    background: var(--dark-brown);
+    color: var(--gold-light);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--warm-brown);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    background: transparent;
+    color: var(--dark-brown);
+    border: 1px solid var(--dark-brown);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    background: var(--dark-brown);
+    color: var(--gold-light);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--dark-brown);
+    transition: all 0.3s;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--tan);
+    padding: 1.5rem 4vw 2rem;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 99;
+  }
+
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--dark-brown);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--parchment);
+    padding-bottom: 0.8rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 68px;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vw 5vw 6vw 8vw;
+    position: relative;
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.07;
+    color: var(--espresso);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--warm-brown);
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dark-brown);
+    max-width: 420px;
+    margin-bottom: 2.8rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--parchment);
+  }
+
+  .hero-image-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+  }
+
+  .hero-img-cell {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-img-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: sepia(20%) contrast(1.05);
+  }
+
+  .hero-img-cell:hover img { transform: scale(1.04); }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--espresso);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    padding: 8px 20px;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(245,240,232,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--dark-brown);
+    color: var(--gold-light);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 28s linear infinite;
+  }
+
+  .marquee-item {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 2.5rem;
+  }
+
+  .marquee-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0 2.5rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 8vw; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+    gap: 2rem;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--espresso);
+  }
+
+  .section-title em { font-style: italic; color: var(--warm-brown); }
+
+  /* ── CATEGORIES ── */
+  .categories { background: var(--parchment); }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5px;
+  }
+
+  .category-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    background: var(--tan);
+  }
+
+  .category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: sepia(15%) brightness(0.95);
+  }
+
+  .category-card:hover img { transform: scale(1.06); }
+
+  .category-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(30,15,5,0.75) 0%, transparent 55%);
+  }
+
+  .category-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem 1.2rem;
+    z-index: 2;
+    transform: translateY(6px);
+    transition: transform 0.3s;
+  }
+
+  .category-card:hover .category-info { transform: translateY(0); }
+
+  .category-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 3px;
+  }
+
+  .category-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--tan);
+    text-transform: uppercase;
+  }
+
+  /* ── PRODUCT GRID ── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: #fff;
+    border: 1px solid var(--tan);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px var(--shadow);
+  }
+
+  .product-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--parchment);
+  }
+
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: sepia(10%) contrast(1.02);
+  }
+
+  .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+
+  .product-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--rust);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    z-index: 2;
+  }
+
+  .product-badge.new { background: var(--sage); }
+  .product-badge.rare { background: var(--gold); color: var(--espresso); }
+
+  .product-actions {
+    position: absolute;
+    top: 12px; right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0;
+    transform: translateX(8px);
+    transition: all 0.3s;
+    z-index: 2;
+  }
+
+  .product-card:hover .product-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .icon-btn {
+    width: 34px; height: 34px;
+    background: rgba(245,240,232,0.95);
+    border: 1px solid var(--tan);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: background 0.2s, color 0.2s;
+    color: var(--dark-brown);
+  }
+
+  .icon-btn:hover { background: var(--dark-brown); color: var(--gold-light); }
+
+  .product-body {
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+
+  .product-era {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-brown);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--espresso);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .product-desc {
+    font-size: 0.88rem;
+    color: var(--warm-brown);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+  }
+
+  .product-price-orig {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--warm-brown);
+    text-decoration: line-through;
+    margin-left: 6px;
+  }
+
+  .btn-add {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    background: var(--dark-brown);
+    color: var(--gold-light);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-add:hover { background: var(--warm-brown); }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-btn {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border: 1px solid var(--tan);
+    background: transparent;
+    color: var(--dark-brown);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: var(--dark-brown);
+    color: var(--gold-light);
+    border-color: var(--dark-brown);
+  }
+
+  /* ── FEATURED STORY ── */
+  .featured-story {
+    background: var(--espresso);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 540px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .story-img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(30%) brightness(0.8);
+    transition: transform 0.6s;
+  }
+
+  .featured-story:hover .story-img img { transform: scale(1.03); }
+
+  .story-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--espresso));
+    pointer-events: none;
+  }
+
+  .story-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5vw 6vw 5vw 4vw;
+  }
+
+  .story-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .story-tag::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .story-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+    color: var(--cream);
+  }
+
+  .story-text {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--tan);
+    margin-bottom: 2.2rem;
+    max-width: 400px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--parchment); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .testimonial-card {
+    background: var(--cream);
+    border: 1px solid var(--tan);
+    padding: 2rem 1.8rem;
+    position: relative;
+  }
+
+  .testimonial-card::before {
+    content: '\201C';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--gold);
+    line-height: 0.8;
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    opacity: 0.4;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--tan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--espresso);
+  }
+
+  .author-location {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+    margin-top: 1px;
+  }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0.8rem;
+  }
+
+  .star { color: var(--gold); font-size: 0.9rem; }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    background: var(--dark-brown);
+    text-align: center;
+    padding: 5rem 8vw;
+  }
+
+  .newsletter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .newsletter-text {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--tan);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .newsletter-form {
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    background: var(--cream);
+    border: none;
+    color: var(--espresso);
+    outline: none;
+  }
+
+  .newsletter-form input::placeholder { color: var(--warm-brown); }
+
+  .newsletter-form button {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    background: var(--gold);
+    color: var(--espresso);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .newsletter-form button:hover { background: var(--gold-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--espresso);
+    color: var(--tan);
+    padding: 4rem 8vw 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(212,197,169,0.15);
+  }
+
+  .footer-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-brand-name span { font-style: italic; color: var(--gold); }
+
+  .footer-brand-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--tan);
+    margin-bottom: 1.5rem;
+    max-width: 260px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-btn {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,197,169,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tan);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .social-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .footer-col-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.55rem; }
+  .footer-col ul a {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--tan);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-copyright {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(212,197,169,0.5);
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(28,16,8,0.75);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--cream);
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-img {
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+  }
+
+  .modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(10%);
+  }
+
+  .modal-content {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-era {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-brown);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .modal-desc {
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .modal-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--espresso);
+    color: var(--cream);
+    border: none;
+    width: 32px; height: 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  .modal-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-item {
+    background: var(--parchment);
+    padding: 8px 12px;
+  }
+
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-brown);
+  }
+
+  .detail-val {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--espresso);
+    margin-top: 2px;
+  }
+
+  /* ── CART TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--dark-brown);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    padding: 14px 22px;
+    border-left: 3px solid var(--gold);
+    z-index: 300;
+    transform: translateX(120%);
+    transition: transform 0.35s ease;
+    max-width: 280px;
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  /* ── DECORATIVE DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    color: var(--gold);
+    font-size: 0.6rem;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--tan);
+  }
+
+  /* ── PROCESS ── */
+  .process { background: var(--cream); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: var(--tan);
+  }
+
+  .process-step {
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .step-num {
+    width: 56px; height: 56px;
+    border: 1px solid var(--tan);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 0 auto 1.2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--espresso);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-text {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--warm-brown);
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 4rem 6vw; }
+    .hero-right { height: 50vw; }
+    .featured-story { grid-template-columns: 1fr; }
+    .story-img { height: 300px; }
+    .story-img::after { background: linear-gradient(to top, var(--espresso) 0%, transparent 60%); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .process-steps::before { display: none; }
+    .modal { grid-template-columns: 1fr; }
+    .modal-img { min-height: 200px; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 4rem 5vw; }
+    .hero-left { padding: 3rem 5vw; }
+    .hero-stats { gap: 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input,
+    .newsletter-form button { width: 100%; }
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn-primary,
+    .hero-ctas .btn-outline { text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 2.4rem; }
+    .hero-image-grid { grid-template-columns: 1fr; }
+    .hero-img-cell:nth-child(n+2) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <svg class="logo-icon" viewBox="0 0 32 32">
+      <path d="M16 4 L28 10 L28 22 L16 28 L4 22 L4 10 Z"/>
+      <path d="M16 4 L16 28 M4 10 L28 22 M28 10 L4 22"/>
+      <circle cx="16" cy="16" r="3"/>
+    </svg>
+    Vintage<span>Vault</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <button class="btn-cart" onclick="openCart()" title="Cart">
+      🛒
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <a href="#shop" class="btn-primary" style="font-size:0.78rem; padding:8px 18px">Explore</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#collections" onclick="toggleMenu()">Collections</a>
+  <a href="#shop" onclick="toggleMenu()">Shop</a>
+  <a href="#story" onclick="toggleMenu()">Our Story</a>
+  <a href="#process" onclick="toggleMenu()">How It Works</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-label">Est. 1987 · Curated Antiques</div>
+    <h1 class="hero-title">
+      Where <em>History</em><br>Finds a<br>New Home
+    </h1>
+    <p class="hero-desc">
+      Discover authenticated antiques, rare collectibles, and retro treasures — each piece carrying the soul of its era, ready for its next chapter.
+    </p>
+    <div class="hero-ctas">
+      <a href="#shop" class="btn-primary">Browse the Vault</a>
+      <a href="#story" class="btn-outline">Our Story</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">4,200+</span>
+        <span class="stat-label">Pieces Curated</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">38</span>
+        <span class="stat-label">Years of Expertise</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">12K</span>
+        <span class="stat-label">Happy Collectors</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-image-grid">
+      <div class="hero-img-cell">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Vintage camera">
+      </div>
+      <div class="hero-img-cell">
+        <img src="https://images.unsplash.com/photo-1484502249930-e6f6c5ba8b02?w=500&q=80" alt="Antique clock">
+      </div>
+      <div class="hero-img-cell">
+        <img src="https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=500&q=80" alt="Vintage books">
+      </div>
+      <div class="hero-img-cell">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=500&q=80" alt="Retro telephone">
+      </div>
+    </div>
+    <div class="hero-badge">✦ Authenticated & Certified ✦</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Victorian Era</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Art Deco</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Mid-Century Modern</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Retro 1950s–1980s</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Edwardian Collectibles</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Industrial Antiques</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Authentic Provenance</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Expert Authentication</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Victorian Era</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Art Deco</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Mid-Century Modern</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Retro 1950s–1980s</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Edwardian Collectibles</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Industrial Antiques</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Authentic Provenance</span>
+    <span class="marquee-dot"></span>
+    <span class="marquee-item">Expert Authentication</span>
+    <span class="marquee-dot"></span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="collections">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Browse by Era</div>
+      <h2 class="section-title">Explore Our <em>Collections</em></h2>
+    </div>
+    <a href="#shop" class="btn-outline">View All</a>
+  </div>
+
+  <div class="category-grid">
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1584847801557-a4c90c6ccb9f?w=400&q=80" alt="Victorian Era">
+      <div class="category-info">
+        <div class="category-name">Victorian Era</div>
+        <div class="category-count">214 pieces</div>
+      </div>
+    </div>
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1522444195799-478538b28823?w=400&q=80" alt="Art Deco">
+      <div class="category-info">
+        <div class="category-name">Art Deco</div>
+        <div class="category-count">189 pieces</div>
+      </div>
+    </div>
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Vintage Electronics">
+      <div class="category-info">
+        <div class="category-name">Retro Electronics</div>
+        <div class="category-count">312 pieces</div>
+      </div>
+    </div>
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=400&q=80" alt="Books & Paper">
+      <div class="category-info">
+        <div class="category-name">Books & Paper</div>
+        <div class="category-count">528 pieces</div>
+      </div>
+    </div>
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=80" alt="Vintage Clothing">
+      <div class="category-info">
+        <div class="category-name">Vintage Clothing</div>
+        <div class="category-count">445 pieces</div>
+      </div>
+    </div>
+    <div class="category-card reveal">
+      <img src="https://images.unsplash.com/photo-1484502249930-e6f6c5ba8b02?w=400&q=80" alt="Clocks & Timepieces">
+      <div class="category-info">
+        <div class="category-name">Clocks & Timepieces</div>
+        <div class="category-count">97 pieces</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop" style="background: var(--cream);">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Featured Items</div>
+      <h2 class="section-title">Newly <em>Arrived</em></h2>
+    </div>
+    <a href="#" class="btn-outline">View All Pieces</a>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProducts('all', this)">All Pieces</button>
+    <button class="filter-btn" onclick="filterProducts('rare', this)">Rare Finds</button>
+    <button class="filter-btn" onclick="filterProducts('new', this)">New Arrivals</button>
+    <button class="filter-btn" onclick="filterProducts('sale', this)">On Sale</button>
+    <button class="filter-btn" onclick="filterProducts('victorian', this)">Victorian</button>
+    <button class="filter-btn" onclick="filterProducts('retro', this)">Retro</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+    <!-- JS-rendered -->
+  </div>
+</section>
+
+<!-- FEATURED STORY -->
+<section class="featured-story" id="story">
+  <div class="story-img">
+    <img src="https://images.unsplash.com/photo-1524230659092-07f99a75c013?w=700&q=80" alt="Our story">
+  </div>
+  <div class="story-content">
+    <div class="story-tag">Our Story</div>
+    <h2 class="story-title">Three Decades of Hunting the Extraordinary</h2>
+    <p class="story-text">
+      What began as a weekend market stall in 1987 has grown into one of the most trusted names in vintage authentication. Our team of specialists scours estate sales, auctions, and private collections across five continents — seeking the rare, the beautiful, and the genuinely historical.
+    </p>
+    <p class="story-text" style="margin-bottom: 2.2rem;">
+      Every item in our vault is vetted by certified appraisers and carries full provenance documentation. We believe in the stories behind objects — and in connecting those stories with the collectors who cherish them.
+    </p>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+      <a href="#process" class="btn-primary" style="background:var(--gold); color:var(--espresso)">Learn Our Process</a>
+      <a href="#contact" class="btn-outline" style="border-color:var(--tan); color:var(--cream)">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-header" style="justify-content:center; text-align:center; flex-direction:column; align-items:center; margin-bottom:4rem;">
+    <div class="section-label" style="justify-content:center;">The Vault Promise</div>
+    <h2 class="section-title">How We <em>Curate</em></h2>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">I</div>
+      <div class="step-title">Discovery</div>
+      <p class="step-text">Our scouts attend estate auctions, private sales, and international fairs to source exceptional pieces year-round.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">II</div>
+      <div class="step-title">Authentication</div>
+      <p class="step-text">Each item is rigorously assessed by our in-house appraisers and third-party specialists using scientific dating methods.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">III</div>
+      <div class="step-title">Restoration</div>
+      <p class="step-text">Where necessary, our conservators undertake minimal, museum-standard restoration to preserve originality and value.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">IV</div>
+      <div class="step-title">Collection</div>
+      <p class="step-text">Certified pieces enter the Vault with full provenance documentation, ready to be discovered and loved once more.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header" style="flex-direction:column; align-items:center; text-align:center; margin-bottom:3rem;">
+    <div class="section-label" style="justify-content:center;">Collector Voices</div>
+    <h2 class="section-title">Stories from Our <em>Community</em></h2>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">The 1920s Tiffany lamp I acquired arrived exactly as described, with provenance documentation that my insurance appraiser called "impeccable." The level of care in packaging was extraordinary.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MH</div>
+        <div>
+          <div class="author-name">Margaret Holloway</div>
+          <div class="author-location">Boston, Massachusetts</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">I've been collecting Art Deco jewellery for twenty years. VintageVault is the only online dealer where I trust the attribution implicitly. Their specialists truly know their periods.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JP</div>
+        <div>
+          <div class="author-name">Jacques Périer</div>
+          <div class="author-location">Lyon, France</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Found a pristine 1958 Leica M3 that had been languishing in a German estate. VintageVault had it serviced by a master technician. It shoots perfectly. I'm in love.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">SR</div>
+        <div>
+          <div class="author-name">Sanjay Rathore</div>
+          <div class="author-location">Mumbai, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="contact">
+  <div class="newsletter-label">Join the Inner Circle</div>
+  <h2 class="newsletter-title">First to Know,<br>First to Collect</h2>
+  <p class="newsletter-text">
+    Receive curated discoveries, early access to rare arrivals, and collector's insights delivered to your inbox — no more than twice a month.
+  </p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="Your email address" id="emailInput">
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Vintage<span>Vault</span></div>
+      <p class="footer-brand-desc">
+        Curating authenticated antiques and vintage collectibles since 1987. Every piece tells a story worth preserving.
+      </p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" title="Instagram">📷</a>
+        <a href="#" class="social-btn" title="Pinterest">📌</a>
+        <a href="#" class="social-btn" title="Facebook">👤</a>
+        <a href="#" class="social-btn" title="Twitter">🐦</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Collections</div>
+      <ul>
+        <li><a href="#">Victorian Era</a></li>
+        <li><a href="#">Art Deco</a></li>
+        <li><a href="#">Mid-Century Modern</a></li>
+        <li><a href="#">Retro Electronics</a></li>
+        <li><a href="#">Vintage Clothing</a></li>
+        <li><a href="#">Books & Paper</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <ul>
+        <li><a href="#">Authentication</a></li>
+        <li><a href="#">Appraisal</a></li>
+        <li><a href="#">Estate Sales</a></li>
+        <li><a href="#">Private Commissions</a></li>
+        <li><a href="#">Gift Registry</a></li>
+        <li><a href="#">Storage & Insurance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Information</div>
+      <ul>
+        <li><a href="#">About VintageVault</a></li>
+        <li><a href="#">Our Experts</a></li>
+        <li><a href="#">Authenticity Guarantee</a></li>
+        <li><a href="#">Shipping & Returns</a></li>
+        <li><a href="#">Care & Conservation</a></li>
+        <li><a href="#">Press & Media</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copyright">© 2024 VintageVault. All rights reserved. Each piece, a chapter of history.</span>
+    <div style="display:flex; gap:1.5rem;">
+      <a href="#" style="font-family:'DM Mono',monospace; font-size:0.62rem; color:rgba(212,197,169,0.5); text-decoration:none; letter-spacing:0.08em;">Privacy Policy</a>
+      <a href="#" style="font-family:'DM Mono',monospace; font-size:0.62rem; color:rgba(212,197,169,0.5); text-decoration:none; letter-spacing:0.08em;">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img" id="modalImg">
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+      <img id="modalImgSrc" src="" alt="">
+    </div>
+    <div class="modal-content">
+      <div class="modal-era" id="modalEra"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-details" id="modalDetails"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <button class="btn-primary" style="width:100%; text-align:center;" onclick="addToCartModal()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── DATA ──
+  const products = [
+    {
+      id: 1, tag: 'rare', era: '1920s · Art Deco',
+      name: 'Bakelite Mantle Clock', badge: 'Rare',
+      desc: 'Original Art Deco mantle clock in warm amber bakelite. Eight-day movement, fully serviced. Minor patina consistent with age.',
+      price: '£485', origPrice: '£620',
+      condition: 'Excellent', origin: 'England', year: 'c. 1924', material: 'Bakelite',
+      img: 'https://images.unsplash.com/photo-1484502249930-e6f6c5ba8b02?w=600&q=80',
+      category: ['all', 'rare']
+    },
+    {
+      id: 2, tag: 'new', era: '1950s · Mid-Century',
+      name: 'Leica IIIf 35mm Camera', badge: 'New',
+      desc: 'Legendary Leica IIIf with 50mm Elmar f/3.5 collapsible lens. Recently CLA'd. All speeds accurate. Light seals replaced.',
+      price: '£1,240',
+      condition: 'Very Good', origin: 'Germany', year: '1952', material: 'Brass & Steel',
+      img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+      category: ['all', 'new', 'retro']
+    },
+    {
+      id: 3, tag: 'sale', era: '1880s · Victorian',
+      name: 'Mahogany Writing Slope', badge: 'Sale',
+      desc: 'Gentleman\'s portable writing slope in figured mahogany with brass fittings, velvet interior and secret compartment. Excellent original condition.',
+      price: '£320', origPrice: '£450',
+      condition: 'Good+', origin: 'Scotland', year: 'c. 1885', material: 'Mahogany & Brass',
+      img: 'https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=600&q=80',
+      category: ['all', 'sale', 'victorian']
+    },
+    {
+      id: 4, tag: 'new', era: '1960s · Space Age',
+      name: 'Ericofon Cobra Telephone', badge: 'New',
+      desc: 'Iconic Swedish Ericofon in original harvest gold. Fully working, dial mechanism smooth. A design icon of the Space Age era.',
+      price: '£285',
+      condition: 'Excellent', origin: 'Sweden', year: '1965', material: 'ABS Plastic',
+      img: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&q=80',
+      category: ['all', 'new', 'retro']
+    },
+    {
+      id: 5, tag: 'rare', era: '1890s · Victorian',
+      name: 'Stereoscope Viewer & Cards', badge: 'Rare',
+      desc: 'Holmes-pattern stereoscope in rosewood with a collection of 48 original albumen print cards depicting European cities. Museum quality.',
+      price: '£680',
+      condition: 'Excellent', origin: 'USA', year: 'c. 1892', material: 'Rosewood & Brass',
+      img: 'https://images.unsplash.com/photo-1584847801557-a4c90c6ccb9f?w=600&q=80',
+      category: ['all', 'rare', 'victorian']
+    },
+    {
+      id: 6, tag: 'sale', era: '1930s · Art Deco',
+      name: 'Sunburst Wall Mirror', badge: 'Sale',
+      desc: 'Spectacular Art Deco sunburst mirror in gilt gesso with original glass. Some foxing to mirror plate adds authentic patina. 86cm diameter.',
+      price: '£540', origPrice: '£720',
+      condition: 'Good', origin: 'France', year: 'c. 1932', material: 'Gilt Gesso & Glass',
+      img: 'https://images.unsplash.com/photo-1522444195799-478538b28823?w=600&q=80',
+      category: ['all', 'sale']
+    },
+  ];
+
+  let cart = [];
+  let currentProduct = null;
+  let activeFilter = 'all';
+
+  // ── RENDER PRODUCTS ──
+  function renderProducts(filter = 'all') {
+    const grid = document.getElementById('productsGrid');
+    const filtered = products.filter(p => p.category.includes(filter));
+    grid.innerHTML = filtered.map(p => `
+      <div class="product-card reveal" data-id="${p.id}">
+        <div class="product-img-wrap">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+          <span class="product-badge ${p.tag}">${p.badge}</span>
+          <div class="product-actions">
+            <button class="icon-btn" onclick="openModal(${p.id})" title="Quick view">👁</button>
+            <button class="icon-btn" onclick="addToCart(${p.id})" title="Add to cart">+</button>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-era">${p.era}</div>
+          <div class="product-name">${p.name}</div>
+          <p class="product-desc">${p.desc.substring(0,90)}…</p>
+          <div class="product-footer">
+            <div>
+              <span class="product-price">${p.price}</span>
+              ${p.origPrice ? `<span class="product-price-orig">${p.origPrice}</span>` : ''}
+            </div>
+            <button class="btn-add" onclick="addToCart(${p.id})">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    observeReveal();
+  }
+
+  function filterProducts(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(filter);
+  }
+
+  // ── CART ──
+  function addToCart(id) {
+    const p = products.find(x => x.id === id);
+    cart.push(p);
+    document.getElementById('cartBadge').textContent = cart.length;
+    showToast(`"${p.name}" added to cart`);
+  }
+
+  function addToCartModal() {
+    if (currentProduct) {
+      addToCart(currentProduct.id);
+      closeModalBtn();
+    }
+  }
+
+  function openCart() {
+    if (cart.length === 0) {
+      showToast('Your cart is empty');
+    } else {
+      showToast(`${cart.length} item${cart.length > 1 ? 's' : ''} in your cart`);
+    }
+  }
+
+  // ── MODAL ──
+  function openModal(id) {
+    const p = products.find(x => x.id === id);
+    currentProduct = p;
+    document.getElementById('modalImgSrc').src = p.img;
+    document.getElementById('modalEra').textContent = p.era;
+    document.getElementById('modalTitle').textContent = p.name;
+    document.getElementById('modalDesc').textContent = p.desc;
+    document.getElementById('modalPrice').textContent = p.price;
+    document.getElementById('modalDetails').innerHTML = `
+      <div class="detail-item"><div class="detail-label">Condition</div><div class="detail-val">${p.condition}</div></div>
+      <div class="detail-item"><div class="detail-label">Origin</div><div class="detail-val">${p.origin}</div></div>
+      <div class="detail-item"><div class="detail-label">Year</div><div class="detail-val">${p.year}</div></div>
+      <div class="detail-item"><div class="detail-label">Material</div><div class="detail-val">${p.material}</div></div>
+    `;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModalBtn() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    currentProduct = null;
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModalBtn();
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── NEWSLETTER ──
+  function subscribeNewsletter() {
+    const input = document.getElementById('emailInput');
+    if (input.value && input.value.includes('@')) {
+      showToast('Welcome to the Inner Circle ✦');
+      input.value = '';
+    } else {
+      showToast('Please enter a valid email');
+    }
+  }
+
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── MOBILE MENU ──
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // ── SCROLL REVEAL ──
+  function observeReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('visible');
+      observer.observe(el);
+    });
+  }
+
+  // ── INIT ──
+  renderProducts('all');
+  observeReveal();
+
+  // Keyboard close modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModalBtn();
+  });
+</script>
+</body>
+</html>
