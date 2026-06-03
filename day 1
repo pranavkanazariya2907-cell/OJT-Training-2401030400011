@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>asthetic soles</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      border-bottom: 2px solid rgb(103, 19, 142);
+    }
+
+    .nav-left img {
+      width: 40px;
+      cursor: pointer;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-center a {
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      border-radius: 20px;
+      padding: 5px 10px;
+    }
+
+    .search-box input {
+      border: none;
+      background: none;
+      outline: none;
+      padding-left: 5px;
+    }
+
+    .icon {
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="nav-left">
+    </div>
+
+    <div class="nav-center">
+      <a href="#">New & Featured</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Jordan</a>
+      <a href="#">Sale</a>
+    </div>
+
+    <div class="nav-right">
+      <div class="search-box">
+        🔍 <input type="text" placeholder="Search">
+      </div>
+      <span class="icon">♡</span>
+      <span class="icon">🛍️</span>
+    </div>
+  </div>
+</body>
+
+</html>
