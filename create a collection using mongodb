@@ -1,0 +1,5 @@
+db.createCollection("customers")
+
+
+
+output:-{ ok: 1 }
