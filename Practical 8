@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tailwind Flexbox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+    <div class="flex justify-center gap-4 mt-10">
+        <div class="bg-blue-500 text-white p-4">
+            Box 1
+        </div>
+
+        <div class="bg-green-500 text-white p-4">
+            Box 2
+        </div>
+
+        <div class="bg-red-500 text-white p-4">
+            Box 3
+        </div>
+    </div>
+
+</body>
+</html>
