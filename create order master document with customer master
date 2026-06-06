@@ -1,0 +1,41 @@
+db.orders.insertMany([
+{
+    orderId: 101,
+    customerId: 1,
+    orderDate: new Date(),
+    items: [
+        {
+            product: "Laptop",
+            qty: 1,
+            price: 50000
+        }
+    ],
+    totalAmount: 50000
+},
+{
+    orderId: 102,
+    customerId: 2,
+    orderDate: new Date("2026-05-30"),
+    items: [
+        {
+            product: "Mouse",
+            qty: 2,
+            price: 500
+        }
+    ],
+    totalAmount: 1000
+},
+{
+    orderId: 103,
+    customerId: 3,
+    orderDate: new Date(),
+    items: [
+        {
+            product: "Keyboard",
+            qty: 1,
+            price: 1500
+        }
+    ],
+    totalAmount: 1500
+}
+])
